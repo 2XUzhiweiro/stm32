@@ -1,0 +1,31 @@
+<STM32---Lesson9 PWM+servo>
+#include "led.h"
+#include "delay.h"
+#include "key.h"
+#include "sys.h"
+#include "usart.h"
+#include "timer.h"
+ int main(void)
+ {		
+ /*	u16 led0pwmval=0;
+	u8 dir=1;	*/
+	delay_init();	    	 //延时初始化	  
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	 //设置NVIC中断分组2：2位抢占优先级，2位响应优先级
+	uart_init(115200);	 //串口初始化波特率115200
+ 	LED_Init();			     //LED端口初始化
+ 	TIM3_PWM_Init(199,7199);	 //分频=72000000/1440,000=50Hz
+   	while(1)
+	{
+		delay_ms(50000);
+		TIM_SetCompare2(TIM3, 178); //0度
+				delay_ms(40000);
+		TIM_SetCompare2(TIM3, 183); //45度
+        delay_ms(40000);
+		TIM_SetCompare2(TIM3, 188); //90度
+				delay_ms(40000);
+		TIM_SetCompare2(TIM3, 195); //180度
+				delay_ms(40000);
+		TIM_SetCompare2(TIM3, 183); //45度
+	//	TIM_SetCompare2(TIM3,led0pwmval);	  
+	}	 
+}
